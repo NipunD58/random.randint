@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post - random.randint()</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">random.randint()</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="create-post.html" class="nav-link">Write</a></li>
+                <li class="theme-toggle-item">
+                    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme">
+                        <span class="theme-toggle-track"></span>
+                        <span class="theme-toggle-thumb"></span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <article class="post-container" id="postContainer">
+            <!-- Post content will be loaded dynamically -->
+            <div class="post-loading">Loading post...</div>
+        </article>
+
+        <section class="post-navigation">
+            <a href="index.html" class="back-link">&larr; Back to all posts</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 random.randint(). All rights reserved.</p>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script src="blogs.js"></script>
+    <script>
+        const STORAGE_KEY = 'uploadedBlogPosts_v2';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPost();
+        });
+
+        function getAllPosts() {
+            const uploadedPosts = getUploadedPosts();
+            const byId = new Map();
+
+            [...blogPosts, ...uploadedPosts].forEach(post => {
+                byId.set(post.id, post);
+            });
+
+            return Array.from(byId.values());
+        }
+
+        function getUploadedPosts() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) {
+                    return [];
+                }
+
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                console.error('Could not read uploaded posts:', error);
+                return [];
+            }
+        }
+
+        function loadPost() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = parseInt(urlParams.get('id'));
+            
+            const postContainer = document.getElementById('postContainer');
+            
+            if (!postId) {
+                postContainer.innerHTML = `
+                    <div class="post-error">
+                        <h2>Post not found</h2>
+                        <p>The requested post could not be found.</p>
+                        <a href="index.html" class="cta-button">Back to Home</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const post = getAllPosts().find(p => Number(p.id) === postId);
+            
+            if (!post) {
+                postContainer.innerHTML = `
+                    <div class="post-error">
+                        <h2>Post not found</h2>
+                        <p>The requested post could not be found.</p>
+                        <a href="index.html" class="cta-button">Back to Home</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Update page title
+            document.title = `${post.title} - The Blog`;
+
+            // Render the post
+            postContainer.innerHTML = `
+                <header class="post-header" data-accent="${post.accent}">
+                    <span class="post-category">${post.category}</span>
+                    <h1 class="post-title">${post.title}</h1>
+                    <div class="post-meta">
+                        <span class="post-author">by John Doe</span>
+                        <span class="post-separator">•</span>
+                        <span class="post-date">${post.date}</span>
+                        <span class="post-separator">•</span>
+                        <span class="post-read-time">${post.readTime}</span>
+                    </div>
+                </header>
+                
+                <div class="post-image">
+                    <img src="${post.image}" alt="${post.title}">
+                </div>
+                
+                <div class="post-body">
+                    <p class="post-excerpt-large">${post.excerpt}</p>
+                    
+                    <div class="post-content">
+                        ${generatePostContent(post)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generatePostContent(post) {
+            // If the post has actual content, use it
+            if (post.content && post.content !== "Full blog content goes here...") {
+                return formatPostContent(post.content);
+            }
+
+            // Otherwise, generate placeholder content
+            return `
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                
+                <h2>The Beginning</h2>
+                <p>
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                
+                <blockquote>
+                    "The best way to predict the future is to create it." - Peter Drucker
+                </blockquote>
+                
+                <h2>Key Insights</h2>
+                <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                </p>
+                
+                <ul>
+                    <li>First important point to consider</li>
+                    <li>Second key insight from our research</li>
+                    <li>Third takeaway for practitioners</li>
+                </ul>
+                
+                <h2>Conclusion</h2>
+                <p>
+                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+                </p>
+                
+                <p>
+                    <em>Thank you for reading! Feel free to share your thoughts in the comments below or reach out via the <a href="contact.html">contact page</a>.</em>
+                </p>
+            `;
+        }
+
+        function formatPostContent(content) {
+            if (content.includes('<') && content.includes('>')) {
+                return sanitizePostHtml(content);
+            }
+
+            return content
+                .split(/\n\s*\n/)
+                .map(paragraph => paragraph.trim())
+                .filter(Boolean)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function sanitizePostHtml(html) {
+            const source = document.createElement('div');
+            source.innerHTML = html;
+
+            const target = document.createElement('div');
+            source.childNodes.forEach(node => {
+                const cleaned = sanitizePostNode(node);
+                if (cleaned) {
+                    target.appendChild(cleaned);
+                }
+            });
+
+            return target.innerHTML;
+        }
+
+        function sanitizePostNode(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const value = node.textContent || '';
+                return value.trim() ? document.createTextNode(value) : null;
+            }
+
+            if (node.nodeType !== Node.ELEMENT_NODE) {
+                return null;
+            }
+
+            const tag = node.tagName.toLowerCase();
+            const allowedTags = new Set(['p', 'br', 'strong', 'em', 'b', 'i', 'u', 'a', 'ul', 'ol', 'li', 'blockquote', 'h2', 'h3', 'img']);
+
+            if (!allowedTags.has(tag)) {
+                const fragment = document.createDocumentFragment();
+                node.childNodes.forEach(child => {
+                    const cleanedChild = sanitizePostNode(child);
+                    if (cleanedChild) {
+                        fragment.appendChild(cleanedChild);
+                    }
+                });
+                return fragment.childNodes.length ? fragment : null;
+            }
+
+            const element = document.createElement(tag);
+
+            if (tag === 'a') {
+                const href = node.getAttribute('href') || '';
+                if (isSafeHref(href)) {
+                    element.setAttribute('href', href);
+                    element.setAttribute('target', '_blank');
+                    element.setAttribute('rel', 'noopener noreferrer');
+                }
+            }
+
+            if (tag === 'img') {
+                const src = node.getAttribute('src') || '';
+                if (!isSafeImageSource(src)) {
+                    return null;
+                }
+                element.setAttribute('src', src);
+                element.setAttribute('alt', node.getAttribute('alt') || 'Inline blog image');
+                element.classList.add('post-inline-image');
+                return element;
+            }
+
+            node.childNodes.forEach(child => {
+                const cleanedChild = sanitizePostNode(child);
+                if (cleanedChild) {
+                    element.appendChild(cleanedChild);
+                }
+            });
+
+            return element;
+        }
+
+        function isSafeHref(href) {
+            return /^https?:\/\//i.test(href) || /^mailto:/i.test(href) || /^#/i.test(href) || /^\//.test(href);
+        }
+
+        function isSafeImageSource(src) {
+            return /^data:image\//i.test(src) || /^https?:\/\//i.test(src) || /^\//.test(src);
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+        }
+    </script>
+</body>
+</html>

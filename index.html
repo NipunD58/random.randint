@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>random.randint()</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">random.randint()</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="theme-toggle-item">
+                    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme">
+                        <span class="theme-toggle-track"></span>
+                        <span class="theme-toggle-thumb"></span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <span class="hero-label">Welcome to</span>
+            <h1 class="hero-title">random.randint()</h1>
+            <p class="hero-author">A blog by <span class="author-name">Nipun Dhawan</span></p>
+            <p class="hero-description">Its never really random is it?</p>
+            <div class="hero-actions">
+                <a href="#posts" class="cta-button">Explore All Posts</a>
+            </div>
+        </section>
+
+        <section id="posts" class="posts-section">
+            <div class="posts-toolbar" aria-label="Browse blog posts">
+                <div class="toolbar-group toolbar-search">
+                    <label class="toolbar-label" for="searchInput">Search</label>
+                    <input id="searchInput" class="toolbar-input" type="search" placeholder="Search by title or excerpt">
+                </div>
+                <div class="toolbar-group">
+                    <label class="toolbar-label" for="categoryFilter">Category</label>
+                    <select id="categoryFilter" class="toolbar-select">
+                        <option value="all">All categories</option>
+                    </select>
+                </div>
+                <div class="toolbar-group">
+                    <label class="toolbar-label" for="sortSelect">Sort</label>
+                    <select id="sortSelect" class="toolbar-select">
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
+                        <option value="title">Title A-Z</option>
+                    </select>
+                </div>
+                <div class="toolbar-group toolbar-actions">
+                    <button id="clearFilters" class="toolbar-button" type="button">Clear</button>
+                </div>
+            </div>
+
+            <p id="resultsCount" class="results-count" aria-live="polite"></p>
+            <div class="posts-grid" id="postsGrid">
+                <!-- Blog posts will be dynamically loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 random.randint(). All rights reserved.</p>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script src="blogs.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write - random.randint()</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">random.randint()</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="create-post.html" class="nav-link active">Write</a></li>
+                <li class="theme-toggle-item">
+                    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme">
+                        <span class="theme-toggle-track"></span>
+                        <span class="theme-toggle-thumb"></span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="page-hero">
+            <span class="hero-label">Write</span>
+            <h1 class="hero-title">Upload a New Blog</h1>
+            <p class="hero-description">Fill out this form and publish a new post instantly to your homepage.</p>
+        </section>
+
+        <section class="create-post-section">
+            <form id="createPostForm" class="contact-form create-post-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="title">Title *</label>
+                        <input type="text" id="title" name="title" required maxlength="120" placeholder="Your post title">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category *</label>
+                        <input type="text" id="category" name="category" required maxlength="50" placeholder="Design, Technology, etc.">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="excerpt">Short Description *</label>
+                    <textarea id="excerpt" name="excerpt" required rows="3" placeholder="A quick summary readers will see on the card..."></textarea>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="readTime">Read Time *</label>
+                        <input type="text" id="readTime" name="readTime" required maxlength="20" placeholder="5 min read">
+                    </div>
+                    <div class="form-group">
+                        <label for="accent">Accent Color</label>
+                        <select id="accent" name="accent" class="toolbar-select">
+                            <option value="green">Green</option>
+                            <option value="blue">Blue</option>
+                            <option value="purple">Purple</option>
+                            <option value="coral">Coral</option>
+                            <option value="yellow">Yellow</option>
+                            <option value="mint">Mint</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrl">Cover Image URL (optional)</label>
+                    <input type="url" id="imageUrl" name="imageUrl" placeholder="https://example.com/image.jpg">
+                </div>
+
+                <div class="form-group">
+                    <label for="imageFile">Or Upload Image File (optional)</label>
+                    <input type="file" id="imageFile" name="imageFile" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label for="contentEditor">Post Content *</label>
+                    <div
+                        id="contentEditor"
+                        class="rich-editor"
+                        contenteditable="true"
+                        role="textbox"
+                        aria-multiline="true"
+                        aria-label="Post content editor"
+                        data-placeholder="Write your full blog post here. You can paste images between text blocks."
+                    ></div>
+                    <input type="hidden" id="content" name="content" required>
+                    <p class="editor-hint">Tip: paste images directly in the editor with Ctrl+V. Images are stored with the post.</p>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-button">Publish Blog</button>
+                    <a href="index.html" class="cta-button cta-button-secondary">Cancel</a>
+                </div>
+
+                <p class="form-note" id="formStatus" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 random.randint(). All rights reserved.</p>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script src="create-post.js"></script>
+</body>
+</html>
